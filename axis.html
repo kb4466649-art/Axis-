@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AXIS — Connect the Events</title>
+<meta name="description" content="AXIS is a geopolitical research archive that shows how events, countries and organisations connect.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1117;--panel:#131920;--line:#232d38;--text:#e7ebf0;--muted:#8896a6;--acc:#5cc8ff;--amber:#c98a3a;
+--serif:'Newsreader',Georgia,serif;--sans:'IBM Plex Sans',system-ui,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:110px}
+body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.5 var(--sans)}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1360px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:24px;height:68px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo b{font:400 28px var(--serif);letter-spacing:.32em}
+.logo small{display:block;font-size:9px;letter-spacing:.3em;color:var(--muted);margin-top:-4px}
+nav{display:flex;gap:26px;margin:0 auto}
+nav a{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#b9c4d0;padding:6px 0;border-bottom:2px solid transparent}
+nav a:hover,nav a.on{color:#fff;border-color:var(--acc)}
+.search{position:relative;width:260px}
+.search input{width:100%;height:36px;background:#10161d;border:1px solid var(--line);border-radius:18px;padding:0 16px;outline:none}
+.search input:focus{border-color:var(--acc)}
+.results{position:absolute;top:42px;left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:6px;display:none;max-height:340px;overflow:auto}
+.results button{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 12px}
+.results button:hover{background:#1a222c}
+.results small{color:var(--muted)}
+.loginbtn{border:1px solid var(--line);background:none;padding:7px 14px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border-radius:3px;white-space:nowrap}
+.loginbtn:hover{border-color:var(--acc);color:#fff}
+.loginbtn.in{border-color:#2c6b52;color:#4fd39a}
+.hero{display:grid;grid-template-columns:1fr 320px;border-bottom:1px solid var(--line)}
+.hero-main{position:relative;min-height:420px;overflow:hidden}
+.hero-canvas{position:absolute;inset:0}
+.hero-canvas canvas{width:100%;height:100%;display:block;touch-action:pan-y}
+.copy{position:relative;padding:40px 0 30px 20px;max-width:440px;pointer-events:none}
+h1{font:400 clamp(34px,4.4vw,54px)/1.08 var(--serif);margin:0 0 20px}
+.copy p{font:400 17px/1.5 var(--serif);color:#b9c4d0;margin:0 0 18px}
+.rule{width:32px;height:2px;background:var(--amber);margin-bottom:20px}
+.cta{pointer-events:auto;display:inline-flex;gap:28px;align-items:center;border:1px solid var(--acc);background:rgba(13,17,23,.6);padding:12px 16px;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.cta:hover{background:rgba(92,200,255,.12)}
+.stats{display:flex;gap:26px;margin-top:34px}
+.stats div{font:400 22px var(--serif)}
+.stats small{display:block;font:400 12px var(--sans);color:var(--muted)}
+.latest{border-left:1px solid var(--line);padding:20px 22px}
+.latest h3,.panel h3{margin:0 0 14px;font:500 12px var(--sans);letter-spacing:.08em;text-transform:uppercase}
+.ev{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 0}
+.ev small{color:var(--muted);font-size:11px;display:flex;gap:8px;align-items:center}
+.ev span.t{display:block;font:400 15px/1.3 var(--serif);margin-top:4px}
+.ev:hover .t{color:var(--acc)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.link{background:none;border:0;color:var(--acc);font-size:13px;padding:0}
+.features{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;padding:24px 0}
+.card{border:1px solid var(--line);background:var(--panel);padding:18px 20px;display:block}
+.card:hover{border-color:#37516a}
+.card h4{margin:0 0 6px;font:400 18px var(--serif)}
+.card p{margin:0 0 12px;color:var(--muted);font-size:13px}
+.card span{color:var(--acc);font-size:13px}
+section{padding:32px 0;border-top:1px solid var(--line)}
+section>.wrap>h2{font:400 28px var(--serif);margin:0 0 6px}
+section>.wrap>.sub{color:var(--muted);margin:0 0 20px;max-width:640px}
+.panel{border:1px solid var(--line);background:var(--panel);padding:18px}
+.net{display:grid;grid-template-columns:1fr 340px;gap:16px}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{background:none;border:0;padding:6px 11px;font-size:12px;color:var(--muted)}
+.seg button.on{background:#1c2a38;color:#fff}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:none;border-radius:14px;padding:4px 10px;font-size:12px;color:var(--muted)}
+.chip.on{color:var(--text);border-color:#3a4b5c;background:#18212b}
+.chip.off{opacity:.45}
+.gwrap{border:1px solid var(--line);background:#0a0e13;height:560px;position:relative}
+.gwrap canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.hint{position:absolute;left:12px;bottom:10px;font-size:11px;color:var(--muted);pointer-events:none}
+.side h3{font:400 20px/1.25 var(--serif);text-transform:none;letter-spacing:0;margin:8px 0}
+.badge{display:inline-block;font-size:11px;border:1px solid var(--line);padding:1px 8px;border-radius:10px;color:var(--muted)}
+.side p{color:#b9c4d0;font-size:13px;margin:8px 0}
+.conn{display:flex;gap:8px;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:8px 0;font-size:13px}
+.conn em{font-style:normal;color:var(--muted);min-width:96px;font-size:12px}
+.conn:hover span{color:var(--acc)}
+.side select{width:100%;background:#10161d;border:1px solid var(--line);padding:7px;margin:6px 0}
+.pathbox{font-size:13px;color:var(--acc);margin:6px 0}
+.tl{display:flex;gap:0;overflow-x:auto;padding:22px 0 8px;position:relative}
+.tl::before{content:"";position:absolute;left:0;right:0;top:30px;height:1px;background:#34424f}
+.tli{flex:0 0 200px;padding-right:16px;position:relative;background:none;border:0;text-align:left}
+.tli i{position:absolute;top:-5px;left:0;width:10px;height:10px;border-radius:50%;border:2px solid;background:var(--bg)}
+.tli{padding-top:20px}.tli small{color:var(--muted);display:block}.tli b{display:block;font:400 15px/1.3 var(--serif);margin-top:4px}
+.tli:hover b{color:var(--acc)}
+.mapbox{display:grid;grid-template-columns:1fr 300px;gap:16px}
+svg.map{width:100%;background:#0a0e13;border:1px solid var(--line);display:block}
+svg.map .land{fill:#17212b;stroke:#26333f;stroke-width:.6}
+svg.map .grat{stroke:#141d26;stroke-width:.5}
+svg.map circle.pt{cursor:pointer;stroke:#0a0e13;stroke-width:1.2}
+svg.map circle.pt:hover{stroke:#fff}
+.tri{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px}
+.bar2{display:flex;align-items:center;gap:10px;font-size:13px;margin:7px 0}
+.bar2 span:first-child{flex:0 0 150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar2 div{flex:1;height:6px;background:#18212b}.bar2 div i{display:block;height:100%;background:var(--acc)}
+.bar2 b{font-weight:500;width:28px;text-align:right}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.status{font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:1px solid}
+.st-c{color:#4fd39a;border-color:#2c6b52}.st-a{color:#f0a23b;border-color:#7a5522}
+.st-proposed{color:#f0a23b;border-color:#7a5522}.st-approved{color:#4fd39a;border-color:#2c6b52}
+.st-rejected{color:#ff8a8a;border-color:#7a3535}.st-archived{color:#8896a6;border-color:#3a4655}
+.fut{padding:14px 0;border-top:1px solid var(--line)}
+.fut:first-child{border:0}
+blockquote{margin:0;padding:36px 20px;text-align:center;font:400 22px/1.4 var(--serif);color:#cdd6e0;border-top:1px solid var(--line)}
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:12px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer nav{margin:0;gap:18px}footer nav a{font-size:12px;text-transform:none;letter-spacing:0}
+/* ---- comments ---- */
+.cbox{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.cmt{border-bottom:1px solid var(--line);padding:8px 0;font-size:13px}
+.cmt b{font:500 12px var(--sans)}
+.cmt time{color:var(--muted);font-size:11px;margin-left:6px}
+.cmt p{margin:4px 0 0;color:#cdd6e0}
+.cform{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.cform input,.cform textarea{background:#10161d;border:1px solid var(--line);padding:7px 9px;border-radius:3px;width:100%}
+.cform textarea{min-height:56px;resize:vertical}
+.cform button{align-self:flex-start;border:1px solid var(--acc);background:none;color:var(--acc);padding:6px 14px;border-radius:3px;font-size:12px}
+/* ---- admin ---- */
+#adminview{display:none;min-height:70vh}
+.aw{max-width:1200px;margin:0 auto;padding:26px 20px}
+.abar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.atabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.atabs button{border:1px solid var(--line);background:none;padding:8px 14px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;border-radius:3px}
+.atabs button.on{background:#1c2a38;color:#fff;border-color:#3a4b5c}
+.aform{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;background:var(--panel);border:1px solid var(--line);padding:16px;margin-bottom:18px}
+.aform label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.aform label.full{grid-column:1/-1}
+.aform input,.aform select,.aform textarea{background:#10161d;border:1px solid var(--line);padding:8px 9px;border-radius:3px;font-size:13px}
+.aform textarea{min-height:80px;resize:vertical}
+.aform .row{grid-column:1/-1;display:flex;gap:10px;margin-top:4px}
+.abtn{border:1px solid var(--acc);background:none;color:var(--acc);padding:8px 16px;border-radius:3px;font-size:12px}
+.abtn.ghost{border-color:var(--line);color:var(--muted)}
+.abtn.danger{border-color:#7a3535;color:#ff8a8a}
+table.atable{width:100%;border-collapse:collapse;font-size:13px}
+table.atable th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 6px}
+table.atable td{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:top}
+table.atable td.act{white-space:nowrap}
+table.atable td.act button{font-size:11px;margin-right:6px;background:none;border:1px solid var(--line);border-radius:3px;padding:3px 8px;color:var(--muted)}
+table.atable td.act button:hover{color:#fff;border-color:#3a4b5c}
+.loginwrap{max-width:340px;margin:60px auto;background:var(--panel);border:1px solid var(--line);padding:26px}
+.loginwrap h2{font:400 24px var(--serif);margin:0 0 6px}
+.loginwrap p{color:var(--muted);font-size:12px;margin:0 0 18px}
+.loginwrap input{width:100%;background:#10161d;border:1px solid var(--line);padding:9px 10px;border-radius:3px;margin-bottom:10px}
+.loginwrap button{width:100%;border:1px solid var(--acc);background:none;color:var(--acc);padding:10px;border-radius:3px}
+.note{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.5}
+.aisug{border:1px solid var(--line);background:#10161d;padding:12px;margin-bottom:10px}
+.aisug small{color:var(--muted)}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite;margin-right:6px;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--panel);border:1px solid #2c6b52;color:#4fd39a;padding:10px 16px;border-radius:4px;font-size:13px;z-index:99}
+@media(max-width:1000px){
+ .bar{gap:12px}.search{width:auto;flex:1}nav{display:none}
+ .mnav{display:flex!important}
+ .hero,.net,.mapbox,.tri,.dos{grid-template-columns:1fr}
+ .hero-main{min-height:0}.hero-canvas{position:relative;height:340px}
+ .copy{padding:28px 0 10px;max-width:none}
+ .latest{border-left:0;border-top:1px solid var(--line)}
+ .features{grid-template-columns:1fr 1fr}
+ .gwrap{height:60vh;min-height:380px}
+ .tl{flex-direction:column;padding-left:22px}.tl::before{left:4px;right:auto;top:0;bottom:0;width:1px;height:auto}
+ .tli{flex:none;padding:0 0 18px 14px}.tli i{left:-23px;top:4px}
+ .aform{grid-template-columns:1fr}
+}
+.mnav{display:none;gap:18px;overflow-x:auto;padding:0 0 10px;border-bottom:0}
+.mnav a{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#b9c4d0;white-space:nowrap}
+@media(max-width:560px){.features{grid-template-columns:1fr}.logo small{display:none}.logo b{font-size:22px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <div class="bar">
+   <a class="logo" href="#home" aria-label="AXIS home">
+    <svg width="36" height="40" viewBox="0 0 36 40" fill="none" stroke="#dfe7ef" stroke-width="1.5"><path d="M18 3 6 34M18 3l12 31M12 22h14"/><circle cx="18" cy="3" r="2.6" fill="#5cc8ff" stroke="none"/><circle cx="6" cy="34" r="2.6" fill="#8ea0b2" stroke="none"/><circle cx="30" cy="34" r="2.6" fill="#5cc8ff" stroke="none"/></svg>
+    <div><b>AXIS</b><small>CONNECT THE EVENTS</small></div>
+   </a>
+   <nav id="nav">
+    <a href="#home">Home</a><a href="#network">Network</a><a href="#timeline">Timeline</a><a href="#map">Map</a><a href="#dossiers">Dossiers</a><a href="#analytics">Analytics</a><a href="#future">Future</a>
+   </nav>
+   <div class="search">
+    <input id="q" type="search" placeholder="Search events, countries, topics, IDs…" autocomplete="off" aria-label="Search">
+    <div class="results" id="res"></div>
+   </div>
+   <button class="loginbtn" id="loginNavBtn">Admin login</button>
+  </div>
+  <div class="mnav"><a href="#network">Network</a><a href="#timeline">Timeline</a><a href="#map">Map</a><a href="#dossiers">Dossiers</a><a href="#analytics">Analytics</a><a href="#future">Future</a><a href="#admin">Admin</a></div>
+ </div>
+</header>
+
+<div id="publicview">
+<main id="home">
+ <div class="hero">
+  <div class="hero-main">
+   <div class="hero-canvas"><canvas id="hero" aria-label="Interactive preview of the AXIS network"></canvas></div>
+   <div class="copy">
+    <h1>The world is not a collection of isolated events.</h1>
+    <p>Every decision. Every conflict. Every alliance. It's all connected.</p>
+    <div class="rule"></div>
+    <a class="cta" href="#network">Explore the network <span>→</span></a>
+    <div class="stats" id="stats"></div>
+   </div>
+  </div>
+  <aside class="latest">
+   <h3>Latest events</h3>
+   <div id="latest"></div>
+   <p style="margin-top:14px"><a class="link" href="#timeline">View all events →</a></p>
+  </aside>
+ </div>
+
+ <div class="wrap">
+  <div class="features">
+   <a class="card" href="#network"><h4>Network view</h4><p>Explore connected events, entities and relationships.</p><span>Explore →</span></a>
+   <a class="card" href="#timeline"><h4>Interactive timeline</h4><p>Track how events unfold over time.</p><span>View timeline →</span></a>
+   <a class="card" href="#map"><h4>Global map</h4><p>See where events happen across the world.</p><span>Open map →</span></a>
+   <a class="card" href="#topics"><h4>Topic clusters</h4><p>Discover key themes and their connections.</p><span>Explore topics →</span></a>
+   <a class="card" href="#analytics"><h4>Network analytics</h4><p>Understand the bigger picture with data.</p><span>View analytics →</span></a>
+  </div>
+ </div>
+
+ <section id="network"><div class="wrap">
+  <h2>Network view</h2>
+  <p class="sub">Select any node to see what it connects to. Choose how many steps to follow, trace a path between two nodes, or isolate one network.</p>
+  <div class="net">
+   <div>
+    <div class="ctrl">
+     <div class="seg" id="hops" role="group" aria-label="Connection depth"><button data-h="1">1 step</button><button data-h="2" class="on">2 steps</button><button data-h="3">3 steps</button><button data-h="all">Full</button></div>
+     <button class="chip" id="iso">Isolate selection</button>
+     <button class="chip" id="reset">Reset view</button>
+    </div>
+    <div class="ctrl" id="types"></div>
+    <div class="gwrap"><canvas id="net" aria-label="Interactive knowledge graph"></canvas><div class="hint">Drag nodes · scroll to zoom · drag background to pan</div></div>
+   </div>
+   <div class="panel side" id="side"></div>
+  </div>
+ </div></section>
+
+ <section id="timeline"><div class="wrap">
+  <h2>Interactive timeline</h2>
+  <p class="sub">Every published event with a date, newest first. Select one to open it in the network.</p>
+  <div class="ctrl" id="tlf"></div>
+  <div class="tl" id="tl"></div>
+ </div></section>
+
+ <section id="map"><div class="wrap">
+  <h2>Global map</h2>
+  <p class="sub">Events that have coordinates. Filter by category, then select a point.</p>
+  <div class="ctrl" id="mapf"></div>
+  <div class="mapbox">
+   <svg class="map" id="svgmap" viewBox="0 20 720 290" role="img" aria-label="World map of events"></svg>
+   <div class="panel side" id="mapinfo"></div>
+  </div>
+ </div></section>
+
+ <section id="dossiers"><div class="wrap">
+  <h2>Featured dossier</h2>
+  <p class="sub">A dossier gathers everything connected to one subject: events, countries, organisations and sources.</p>
+  <div class="dos" id="dos"></div>
+ </div></section>
+
+ <section id="topics"><div class="wrap">
+  <h2>Topic clusters</h2>
+  <p class="sub">Topics ranked by how many events connect to them.</p>
+  <div class="panel" id="topiclist"></div>
+ </div></section>
+
+ <section id="analytics"><div class="wrap">
+  <h2>Network analytics</h2>
+  <p class="sub">Calculated live from the current contents of the database.</p>
+  <div class="tri" id="an"></div>
+ </div></section>
+
+ <section id="future"><div class="wrap">
+  <h2>Future</h2>
+  <p class="sub">Scheduled and expected developments. Confirmed items are kept apart from analysis, and analysis is never presented as fact.</p>
+  <div class="panel" id="fut"></div>
+ </div></section>
+
+ <blockquote>Not just what happened, but how it's connected.</blockquote>
+</main>
+
+<footer><div class="wrap">
+ <span id="footnote">AXIS — Connect the Events. Live data stored in this workspace's database.</span>
+ <nav><a href="#network">Network</a><a href="#timeline">Timeline</a><a href="#map">Map</a><a href="#dossiers">Dossiers</a><a href="#analytics">Analytics</a><a href="#admin">Admin</a></nav>
+ <span>© 2026 AXIS</span>
+</div></footer>
+</div>
+
+<div id="adminview"><div class="aw" id="adminroot"></div></div>
+
+<script>
+/* =========================================================================
+   AXIS — data layer, public site, and admin console.
+   Persistence: window.storage (shared) acts as the database described in
+   the AXIS data model doc — nodes (articles/events/entities), connections,
+   comments and user accounts are all real records, not a hardcoded array.
+   ========================================================================= */
+const CAT={conflict:'#ff5a5f',diplomacy:'#4aa3ff',energy:'#b78bff',trade:'#f0a23b',other:'#9aa5b1'};
+const TY={event:{l:'Article',c:'#5cc8ff'},country:{l:'Country',c:'#f0a23b'},org:{l:'Organisation',c:'#4aa3ff'},topic:{l:'Topic',c:'#b78bff'},location:{l:'Location',c:'#4fd39a'},dossier:{l:'Dossier',c:'#ffffff'}};
+const RELTYPES=['related_to','previous_event','follow_up','cause','consequence','escalation','de_escalation','diplomatic','military','economic','trade','energy','historical','geographic','same_country','same_location','same_organisation','same_topic','references','contradicts','supports','custom'];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=d=>{try{return new Date(d+'T00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}catch(e){return d||''}};
+const nowISO=()=>new Date().toISOString();
+async function sha256(str){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('')}
+
+/* ---------- Storage-backed database ---------- */
+const DBKEYS={nodes:'db:nodes',conns:'db:connections',comments:'db:comments',users:'db:users',meta:'db:meta'};
+async function dbGet(key,fallback){try{const r=await window.storage.get(key,true);return r?JSON.parse(r.value):fallback}catch(e){return fallback}}
+async function dbSet(key,val){try{await window.storage.set(key,JSON.stringify(val),true);return true}catch(e){console.error('storage error',key,e);return false}}
+let NODES={},CONNS={},COMMENTS={},USERS={};
+const saveNodes=()=>dbSet(DBKEYS.nodes,NODES);
+const saveConnections=()=>dbSet(DBKEYS.conns,CONNS);
+const saveComments=()=>dbSet(DBKEYS.comments,COMMENTS);
+const saveUsers=()=>dbSet(DBKEYS.users,USERS);
+
+const LBL2TYPE={'Same country':'same_country','Diplomatic':'diplomatic','Same organisation':'same_organisation','Same location':'same_location','Related event':'related_to','Previous event':'previous_event','Cause':'cause','Economic':'economic','Escalation':'escalation','Military':'military','Consequence':'consequence','Energy':'energy','Trade':'trade','Follow-up':'follow_up','Topic':'related_to'};
+
+async function seedDB(){
+ const N=[],E=[];
+ const ent=(id,type,label,extra={})=>N.push({id,type,label,...extra});
+ [['iran','Iran'],['usa','United States'],['russia','Russia'],['ukraine','Ukraine'],['china','China'],['india','India']].forEach(([i,l])=>ent(i,'country',l));
+ [['nato','NATO'],['eu','European Union'],['iaea','IAEA'],['opec','OPEC']].forEach(([i,l])=>ent(i,'org',l));
+ [['nuclear','Nuclear program'],['energy','Energy'],['indopac','Indo-Pacific'],['trade','Trade'],['sanctions','Sanctions'],['maritime','Maritime security']].forEach(([i,l])=>ent(i,'topic',l));
+ [['mideast','Middle East'],['scs','South China Sea'],['blacksea','Black Sea']].forEach(([i,l])=>ent(i,'location',l));
+ ent('d_iran','dossier','Iran — Nuclear Program',{summary:'Talks, inspections and sanctions connected to Iran\u2019s nuclear program.'});
+ const ev=(id,label,date,cat,lat,lng,region,summary)=>N.push({id,type:'event',label,date,cat,lat,lng,region,summary,content:summary,status:'published',importance:'normal',article_code:id,author:'seed',created_at:nowISO(),updated_at:nowISO()});
+ ev('AX-2026-0047','Iran\u2019s nuclear talks face fresh uncertainty','2026-09-21','diplomacy',32,53,'Middle East','Negotiators dispute the sequencing of inspections and sanctions relief.');
+ ev('AX-2026-0046','China expands maritime presence in the Indo-Pacific','2026-09-20','conflict',15,115,'Asia','Additional patrols reported across contested waters.');
+ ev('AX-2026-0045','EU announces new energy security plan','2026-09-19','energy',50.8,4.4,'Europe','A plan to diversify supply and raise storage targets.');
+ ev('AX-2026-0044','Rising tensions in the South China Sea','2026-09-18','conflict',12,114,'Asia','Coast guard encounters raise concern among regional states.');
+ ev('AX-2026-0043','India\u2013Russia oil deal','2026-09-15','trade',28.6,77.2,'Asia','A supply agreement with implications for sanctions policy.');
+ ev('AX-2026-0042','NATO summit','2026-09-10','diplomacy',50.9,4.4,'Europe','Allies discuss deterrence and support for Ukraine.');
+ ev('AX-2026-0041','Black Sea shipping disruptions','2026-09-08','conflict',44,34,'Europe','Insurers and shippers reroute cargo after incidents.');
+ ev('AX-2026-0040','OPEC output review','2026-09-05','energy',48.2,16.4,'Europe','Members review production levels for the coming quarter.');
+ ev('AX-2026-0039','IAEA inspection dispute','2026-09-02','diplomacy',48.3,16.3,'Europe','Inspectors and Tehran disagree on access to sites.');
+ ev('AX-2026-0038','Front-line escalation in Ukraine','2026-08-30','conflict',49,32,'Europe','Renewed offensives along multiple sectors.');
+ ev('AX-2026-0037','US sanctions review','2026-08-27','trade',38.9,-77,'North America','Treasury weighs changes to existing sanctions frameworks.');
+ const edges=[
+ ['AX-2026-0047','iran','Same country'],['AX-2026-0047','usa','Diplomatic'],['AX-2026-0047','iaea','Same organisation'],['AX-2026-0047','nuclear','Topic'],['AX-2026-0047','mideast','Same location'],['AX-2026-0047','d_iran','Related event'],['AX-2026-0047','AX-2026-0039','Previous event'],['AX-2026-0047','AX-2026-0037','Cause'],
+ ['AX-2026-0039','iran','Same country'],['AX-2026-0039','iaea','Same organisation'],['AX-2026-0039','nuclear','Topic'],
+ ['AX-2026-0037','usa','Same country'],['AX-2026-0037','sanctions','Topic'],['AX-2026-0037','iran','Economic'],['AX-2026-0037','AX-2026-0043','Economic'],
+ ['AX-2026-0046','china','Same country'],['AX-2026-0046','indopac','Topic'],['AX-2026-0046','maritime','Topic'],['AX-2026-0046','scs','Same location'],['AX-2026-0046','AX-2026-0044','Escalation'],
+ ['AX-2026-0044','china','Same country'],['AX-2026-0044','scs','Same location'],['AX-2026-0044','maritime','Topic'],['AX-2026-0044','usa','Military'],['AX-2026-0044','indopac','Topic'],
+ ['AX-2026-0045','eu','Same organisation'],['AX-2026-0045','energy','Topic'],['AX-2026-0045','russia','Energy'],['AX-2026-0045','AX-2026-0040','Energy'],['AX-2026-0045','AX-2026-0041','Consequence'],
+ ['AX-2026-0040','opec','Same organisation'],['AX-2026-0040','energy','Topic'],['AX-2026-0040','AX-2026-0043','Energy'],
+ ['AX-2026-0043','india','Same country'],['AX-2026-0043','russia','Same country'],['AX-2026-0043','energy','Topic'],['AX-2026-0043','trade','Topic'],['AX-2026-0043','sanctions','Economic'],
+ ['AX-2026-0042','nato','Same organisation'],['AX-2026-0042','usa','Diplomatic'],['AX-2026-0042','russia','Military'],['AX-2026-0042','ukraine','Diplomatic'],['AX-2026-0042','AX-2026-0038','Follow-up'],
+ ['AX-2026-0038','russia','Same country'],['AX-2026-0038','ukraine','Same country'],['AX-2026-0038','nato','Military'],['AX-2026-0038','blacksea','Same location'],
+ ['AX-2026-0041','blacksea','Same location'],['AX-2026-0041','russia','Same country'],['AX-2026-0041','ukraine','Same country'],['AX-2026-0041','trade','Trade'],['AX-2026-0041','AX-2026-0038','Consequence'],
+ ['china','trade','Topic'],['d_iran','iran','Same country'],['d_iran','nuclear','Topic'],['d_iran','iaea','Same organisation'],['d_iran','usa','Diplomatic']];
+ const nodesObj={};N.forEach(n=>nodesObj[n.id]=n);
+ const connsObj={};edges.forEach(([a,b,lbl],i)=>{const id='CON-'+String(i+1).padStart(5,'0');connsObj[id]={id,source_node_id:a,target_node_id:b,relationship_type:LBL2TYPE[lbl]||'related_to',direction:'undirected',description:lbl,confidence:null,status:'approved',created_by:'seed',created_at:nowISO(),updated_at:nowISO(),metadata:{ai_generated:false,ai_confidence:null,admin_note:''}}});
+ const pass=await sha256('axis-admin-2026');
+ const usersObj={admin:{username:'admin',passwordHash:pass,role:'administrator'}};
+ NODES=nodesObj;CONNS=connsObj;COMMENTS={};USERS=usersObj;
+ await Promise.all([saveNodes(),saveConnections(),saveComments(),saveUsers(),dbSet(DBKEYS.meta,{seeded:true,seededAt:nowISO()})]);
+}
+async function loadDB(){
+ const meta=await dbGet(DBKEYS.meta,null);
+ if(!meta||!meta.seeded){await seedDB();}
+ NODES=await dbGet(DBKEYS.nodes,{});
+ CONNS=await dbGet(DBKEYS.conns,{});
+ COMMENTS=await dbGet(DBKEYS.comments,{});
+ USERS=await dbGet(DBKEYS.users,{});
+}
+
+/* ---------- Derived / query layer (the "graph API") ---------- */
+let N=[],E=[],BY={},ADJ={},DEG={},events=[];
+function relLabel(c){if(c.description)return c.description;return(c.relationship_type||'related_to').replace(/_/g,' ').replace(/\b\w/g,ch=>ch.toUpperCase())}
+function col(n){return n.type==='event'?(CAT[n.cat]||CAT.other):TY[n.type].c}
+function rebuildDerived(){
+ N=Object.values(NODES).filter(n=>n.type!=='event'||(n.status||'published')==='published');
+ const ids=new Set(N.map(n=>n.id));
+ E=Object.values(CONNS).filter(c=>c.status==='approved'&&ids.has(c.source_node_id)&&ids.has(c.target_node_id)).map(c=>[c.source_node_id,c.target_node_id,relLabel(c)]);
+ BY=Object.fromEntries(N.map(n=>[n.id,n]));
+ ADJ={};DEG={};N.forEach(n=>{ADJ[n.id]=[];DEG[n.id]=0});
+ E.forEach(([a,b,r])=>{ADJ[a].push([b,r]);ADJ[b].push([a,r]);DEG[a]++;DEG[b]++});
+ events=N.filter(n=>n.type==='event').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+}
+function bfs(s,max){const d=new Map([[s,0]]),q=[s];while(q.length){const c=q.shift();if(d.get(c)>=max)continue;for(const[n]of(ADJ[c]||[]))if(!d.has(n)){d.set(n,d.get(c)+1);q.push(n)}}return d}
+function shortest(a,b){const p=new Map([[a,null]]),q=[a];while(q.length){const c=q.shift();if(c===b)break;for(const[n]of(ADJ[c]||[]))if(!p.has(n)){p.set(n,c);q.push(n)}}if(!p.has(b))return null;const r=[];for(let c=b;c!==null;c=p.get(c))r.unshift(c);return r}
+/* Small documented query API — the "graph/query API layer" the data model calls for.
+   Everything the frontend needs goes through here rather than touching NODES/CONNS directly. */
+const AxisAPI={
+ getNode:id=>BY[id]||NODES[id]||null,
+ getConnectionsFor:id=>(ADJ[id]||[]).map(([o,r])=>({node:BY[o],relationship:r})),
+ nodesWithinHops:(id,hops)=>[...bfs(id,hops).keys()].map(i=>BY[i]).filter(Boolean),
+ shortestPath:(a,b)=>{const p=shortest(a,b);return p?p.map(i=>BY[i]):null},
+ mostConnected:(n=10)=>[...N].sort((a,b)=>DEG[b.id]-DEG[a.id]).slice(0,n),
+ recentConnections:(n=10)=>Object.values(CONNS).filter(c=>c.status==='approved').sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||'')).slice(0,n),
+ networkForDossier:(id,hops=2)=>[...bfs(id,hops).keys()].map(i=>BY[i]).filter(Boolean),
+};
+
+/* ---------- Graph engine (unchanged rendering, now rebuildable on data change) ---------- */
+function createGraph(canvas,o){
+ const ctx=canvas.getContext('2d');let W=0,H=0,dpr=1,k=o.k||1,tx=o.tx||0,ty=0,alpha=1,goal=null,visible=true;
+ let nodes=[],edges=[],idx={},hubs=new Set();
+ const st={sel:null,hops:2,isolate:false,types:new Set(Object.keys(TY)),path:null,hover:null,focus:null};
+ const api={st,onSelect:()=>{},get nodes(){return nodes}};
+ function refocus(){
+  if(o.hero){st.focus=st.hover?bfs(st.hover,1):null;return}
+  st.focus=(st.sel&&st.hops!=='all')?bfs(st.sel,st.hops):null}
+ const dim=n=>(st.path&&!st.path.set.has(n.id))||(st.focus&&!st.focus.has(n.id));
+ const vis=n=>st.types.has(n.type)&&!(st.isolate&&!o.hero&&dim(n));
+ const sx=x=>W/2+tx+x*k,sy=y=>H/2+ty+y*k;
+ function build(keepPos){
+  const prev=idx;
+  nodes=N.map((n,i)=>{
+   const old=keepPos&&prev[n.id];
+   const deg=DEG[n.id]||0,r=4.5+Math.sqrt(deg)*1.9;
+   if(old)return{...n,x:old.x,y:old.y,vx:0,vy:0,deg,r};
+   const a=i/Math.max(1,N.length)*6.283,rad=90+Math.random()*130;
+   return{...n,x:Math.cos(a)*rad,y:Math.sin(a)*rad,vx:0,vy:0,deg,r};
+  });
+  idx=Object.fromEntries(nodes.map(n=>[n.id,n]));
+  edges=E.map(([a,b,rel])=>({a:idx[a],b:idx[b],rel})).filter(e=>e.a&&e.b);
+  hubs=new Set([...nodes].sort((a,b)=>b.deg-a.deg).slice(0,o.hero?9:0).map(n=>n.id));
+  alpha=1;
+ }
+ build(false);
+ function resize(){const r=canvas.getBoundingClientRect();dpr=window.devicePixelRatio||1;W=r.width;H=r.height;canvas.width=W*dpr;canvas.height=H*dpr;if(o.hero)tx=W>700?W*.16:0}
+ new ResizeObserver(resize).observe(canvas);resize();
+ new IntersectionObserver(e=>visible=e[0].isIntersecting).observe(canvas);
+ let drag=null;
+ function step(){
+  if(alpha<.004&&!drag)return;
+  for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const a=nodes[i],b=nodes[j];let dx=b.x-a.x,dy=b.y-a.y,d2=dx*dx+dy*dy+.1;if(d2>140000)continue;const d=Math.sqrt(d2),f=2400/d2*alpha;dx/=d;dy/=d;a.vx-=dx*f;a.vy-=dy*f;b.vx+=dx*f;b.vy+=dy*f}
+  for(const e of edges){let dx=e.b.x-e.a.x,dy=e.b.y-e.a.y;const d=Math.sqrt(dx*dx+dy*dy)+.01,f=(d-85)*.03*alpha;dx/=d;dy/=d;e.a.vx+=dx*f;e.a.vy+=dy*f;e.b.vx-=dx*f;e.b.vy-=dy*f}
+  for(const n of nodes){if(n===drag)continue;n.vx-=n.x*.004;n.vy-=n.y*.004;n.vx*=.82;n.vy*=.82;n.x+=n.vx;n.y+=n.vy}
+  alpha*=.992}
+ function pill(t,x,y,c){ctx.font='12px '+getComputedStyle(document.body).fontFamily;const w=ctx.measureText(t).width+14;ctx.fillStyle='rgba(10,14,19,.85)';ctx.strokeStyle=c;ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(x-w/2,y-11,w,22,11);ctx.fill();ctx.stroke();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(t,x,y+.5)}
+ function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  if(goal){tx+=(goal.x-tx)*.2;ty+=(goal.y-ty)*.2;if(Math.abs(goal.x-tx)+Math.abs(goal.y-ty)<.5)goal=null}
+  for(const e of edges){if(!vis(e.a)||!vis(e.b))continue;
+   const onP=st.path&&st.path.edges.has(e.a.id+'|'+e.b.id),touch=st.sel&&(e.a.id===st.sel||e.b.id===st.sel);
+   const faded=(st.path&&!onP)||(!st.path&&(dim(e.a)||dim(e.b)));
+   ctx.strokeStyle=onP?'#5cc8ff':touch?'rgba(92,200,255,.7)':faded?'rgba(120,140,160,.06)':'rgba(120,150,180,.28)';
+   ctx.lineWidth=onP?2.4:touch?1.4:1;ctx.beginPath();ctx.moveTo(sx(e.a.x),sy(e.a.y));ctx.lineTo(sx(e.b.x),sy(e.b.y));ctx.stroke()}
+  for(const n of nodes){if(!vis(n))continue;const d=dim(n),c=col(n),r=n.r*Math.min(1.3,Math.max(.8,k));
+   ctx.globalAlpha=d?.15:1;ctx.fillStyle=c;ctx.beginPath();ctx.arc(sx(n.x),sy(n.y),r,0,6.283);ctx.fill();
+   if(n.type==='event'||n.type==='dossier'){ctx.strokeStyle=c;ctx.lineWidth=1;ctx.beginPath();ctx.arc(sx(n.x),sy(n.y),r+3,0,6.283);ctx.stroke()}
+   if(n.id===st.sel||n.id===st.hover){ctx.strokeStyle='#fff';ctx.lineWidth=1.8;ctx.beginPath();ctx.arc(sx(n.x),sy(n.y),r+6,0,6.283);ctx.stroke()}
+   ctx.globalAlpha=1}
+  for(const n of nodes){if(!vis(n))continue;const d=dim(n);
+   const show=o.hero?hubs.has(n.id)||n.id===st.hover:(n.id===st.sel||n.id===st.hover||(!d&&(k>1.5||(k>.8&&n.deg>=4)||(st.focus&&st.focus.has(n.id)))));
+   if(!show||(d&&n.id!==st.hover))continue;
+   const lbl=n.type==='event'&&!o.hero?n.id.replace('AX-2026-','AX-'):n.label;
+   if(o.hero)pill(lbl,sx(n.x),sy(n.y)-n.r-16,col(n));
+   else{ctx.font='12px '+getComputedStyle(document.body).fontFamily;ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.lineWidth=3;ctx.strokeStyle='#0a0e13';ctx.strokeText(lbl,sx(n.x),sy(n.y)-n.r-8);ctx.fillStyle='#e7ebf0';ctx.fillText(lbl,sx(n.x),sy(n.y)-n.r-8)}}
+ }
+ function loop(){if(visible){step();draw()}requestAnimationFrame(loop)}loop();
+ const hit=(x,y)=>{let b=null,bd=1e9;for(const n of nodes){if(!vis(n))continue;const d=Math.hypot(sx(n.x)-x,sy(n.y)-y);if(d<n.r*Math.max(1,k)+7&&d<bd){b=n;bd=d}}return b};
+ const pts=new Map();let pan=null,moved=0,pinch=0;
+ const pd=()=>{const p=[...pts.values()];return Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)};
+ canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.offsetX,y:e.offsetY});moved=0;
+  if(pts.size===2){pinch=pd();drag=null;pan=null;return}
+  const n=hit(e.offsetX,e.offsetY);if(n)drag=n;else pan={x:e.offsetX,y:e.offsetY,tx,ty};goal=null});
+ canvas.addEventListener('pointermove',e=>{
+  if(pts.has(e.pointerId))pts.set(e.pointerId,{x:e.offsetX,y:e.offsetY});
+  if(pts.size===2){const d=pd();zoom(d/pinch,W/2,H/2);pinch=d;moved=99;return}
+  if(drag){moved+=1;if(moved>3){drag.x=(e.offsetX-W/2-tx)/k;drag.y=(e.offsetY-H/2-ty)/k;drag.vx=drag.vy=0;alpha=.35}}
+  else if(pan){moved=Math.max(moved,Math.hypot(e.offsetX-pan.x,e.offsetY-pan.y));if(!o.hero||moved>6){tx=pan.tx+e.offsetX-pan.x;ty=pan.ty+e.offsetY-pan.y}}
+  else{const n=hit(e.offsetX,e.offsetY);const id=n?n.id:null;if(id!==st.hover){st.hover=id;canvas.style.cursor=n?'pointer':'grab';if(o.hero)refocus()}}});
+ const up=(e,cancel)=>{pts.delete(e.pointerId);
+  if(!cancel&&moved<=3&&pts.size===0){const n=hit(e.offsetX,e.offsetY);api.onSelect(n?n.id:null,!n)}
+  drag=null;pan=null};
+ canvas.addEventListener('pointerup',e=>up(e,false));canvas.addEventListener('pointercancel',e=>up(e,true));
+ canvas.addEventListener('pointerleave',()=>{if(st.hover){st.hover=null;if(o.hero)refocus()}});
+ function zoom(f,x,y){const nk=Math.min(3,Math.max(.35,k*f)),r=nk/k;tx=(x-W/2)-(x-W/2-tx)*r;ty=(y-H/2)-(y-H/2-ty)*r;k=nk}
+ if(o.wheel)canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY<0?1.12:.89,e.offsetX,e.offsetY)},{passive:false});
+ api.select=(id,hops)=>{st.sel=id;st.path=null;if(hops)st.hops=hops;refocus();if(id&&idx[id]){const n=idx[id];goal={x:-n.x*k,y:-n.y*k}}};
+ api.refresh=()=>{refocus()};
+ api.tracePath=(target)=>{if(!st.sel)return null;const p=shortest(st.sel,target);if(!p){st.path=null;return null}
+  const edgesSet=new Set();for(let i=0;i<p.length-1;i++){edgesSet.add(p[i]+'|'+p[i+1]);edgesSet.add(p[i+1]+'|'+p[i])}
+  st.path={list:p,set:new Set(p),edges:edgesSet};return p};
+ api.clearPath=()=>{st.path=null};
+ api.reset=()=>{st.sel=null;st.path=null;st.focus=null;k=1;tx=0;ty=0;goal=null;alpha=.5;nodes.forEach(n=>{n.vx=n.vy=0})};
+ api.rebuild=()=>{build(true);if(st.sel&&!idx[st.sel])st.sel=null;refocus()};
+ return api;
+}
+
+/* ---------- Comments ---------- */
+function commentsFor(nodeId){return(COMMENTS[nodeId]||[]).filter(c=>!c.hidden)}
+async function addComment(nodeId,author,text){
+ if(!text||!text.trim())return;
+ const c={id:'CMT-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),author:(author&&author.trim())||'Anonymous',text:text.trim().slice(0,1000),created_at:nowISO(),hidden:false};
+ COMMENTS[nodeId]=COMMENTS[nodeId]||[];COMMENTS[nodeId].push(c);
+ await saveComments();
+}
+
+/* ---------- Public page ---------- */
+let hero,net;
+function initPublicPage(){
+ hero=createGraph($('#hero'),{hero:true,k:1.05});
+ net=createGraph($('#net'),{wheel:true});
+ hero.onSelect=id=>{if(id)goNet(id)};
+ document.addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b&&b.closest('#latest,#tl'))goNet(b.dataset.id)});
+
+ $('#hops').onclick=e=>{const b=e.target.closest('button');if(!b)return;[...$('#hops').children].forEach(x=>x.classList.toggle('on',x===b));net.st.hops=b.dataset.h==='all'?'all':+b.dataset.h;net.refresh();renderSide()};
+ $('#iso').onclick=e=>{net.st.isolate=!net.st.isolate;e.target.classList.toggle('on',net.st.isolate)};
+ $('#reset').onclick=()=>{net.reset();$('#iso').classList.remove('on');net.st.isolate=false;renderSide()};
+ $('#types').innerHTML=Object.entries(TY).map(([k,v])=>`<button class="chip on" data-t="${k}"><i class="dot" style="background:${v.c}"></i>${v.l}</button>`).join('');
+ $('#types').onclick=e=>{const b=e.target.closest('button');if(!b)return;const t=b.dataset.t,s=net.st.types;s.has(t)?s.delete(t):s.add(t);b.classList.toggle('off',!s.has(t))};
+ net.onSelect=(id,bg)=>{if(bg){net.select(null);renderSide();return}net.select(id);renderSide()};
+ renderSide();
+
+ const q=$('#q'),res=$('#res');
+ q.oninput=()=>{const t=q.value.trim().toLowerCase();if(!t){res.style.display='none';return}
+  const m=N.filter(n=>(n.label+' '+n.id+' '+TY[n.type].l+' '+(n.summary||'')+' '+(n.region||'')).toLowerCase().includes(t)).slice(0,8);
+  res.innerHTML=m.length?m.map(n=>`<button data-s="${n.id}">${esc(n.label)}<br><small>${TY[n.type].l}${n.id.startsWith('AX-')?' · '+n.id:''} · ${DEG[n.id]||0} connections</small></button>`).join(''):'<div style="padding:12px;color:var(--muted)">No results. Try a country, topic or article ID.</div>';
+  res.style.display='block'};
+ res.onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;res.style.display='none';q.value='';goNet(b.dataset.s)};
+ document.addEventListener('click',e=>{if(!e.target.closest('.search'))res.style.display='none'});
+
+ let tlCat='all',mapCat='all';
+ function chips(el,cb){const cats=[['all','All','#8896a6'],...Object.keys(CAT).map(c=>[c,c[0].toUpperCase()+c.slice(1),CAT[c]])];
+  $(el).innerHTML=cats.map(([k,l,c])=>`<button class="chip ${k==='all'?'on':''}" data-c="${k}"><i class="dot" style="background:${c}"></i>${l}</button>`).join('');
+  $(el).onclick=e=>{const b=e.target.closest('button');if(!b)return;[...$(el).children].forEach(x=>x.classList.toggle('on',x===b));cb(b.dataset.c)}}
+ chips('#tlf',c=>{tlCat=c;renderTL()});
+ chips('#mapf',c=>{mapCat=c;renderMap()});
+
+ window.renderTL=function(){$('#tl').innerHTML=events.filter(e=>tlCat==='all'||e.cat===tlCat).map(e=>`<button class="tli" data-id="${e.id}"><i style="border-color:${CAT[e.cat]||CAT.other}"></i><small>${fmt(e.date)}</small><b>${esc(e.label)}</b></button>`).join('')||'<p style="color:var(--muted)">No published events yet.</p>'};
+
+ const LAND=[[[-168,66],[-140,70],[-95,72],[-80,63],[-62,58],[-55,48],[-70,42],[-80,30],[-97,26],[-105,22],[-117,32],[-125,42],[-135,55]],
+ [[-80,10],[-60,10],[-35,-6],[-40,-22],[-58,-38],[-68,-55],[-75,-45],[-71,-20],[-81,-5]],
+ [[-10,36],[-9,43],[0,50],[10,58],[30,70],[70,73],[110,77],[160,70],[180,66],[170,60],[140,52],[142,40],[122,30],[120,22],[108,10],[100,2],[95,16],[80,8],[72,20],[58,25],[48,30],[35,36],[27,37],[10,38],[-5,36]],
+ [[-17,21],[-6,36],[10,37],[32,31],[43,12],[51,11],[40,-15],[33,-26],[20,-35],[12,-17],[9,4],[-8,4],[-17,14]],
+ [[114,-22],[130,-12],[142,-11],[153,-27],[146,-39],[130,-32],[115,-34]],
+ [[-55,60],[-20,70],[-30,83],[-60,80]]];
+ const px=lng=>(lng+180)*2,py=lat=>(90-lat)*2;
+ let mapSel=null;
+ window.renderMap=function(){
+  let g='';for(let x=-180;x<=180;x+=30)g+=`<line class="grat" x1="${px(x)}" x2="${px(x)}" y1="20" y2="310"/>`;for(let y=-60;y<=80;y+=30)g+=`<line class="grat" x1="0" x2="720" y1="${py(y)}" y2="${py(y)}"/>`;
+  g+=LAND.map(p=>`<polygon class="land" points="${p.map(([x,y])=>px(x)+','+py(y)).join(' ')}"/>`).join('');
+  const pts=events.filter(e=>(mapCat==='all'||e.cat===mapCat)&&e.lat!=null&&e.lng!=null);
+  g+=pts.map(e=>`<circle class="pt" data-m="${e.id}" cx="${px(e.lng)}" cy="${py(e.lat)}" r="${e.id===mapSel?7:5}" fill="${CAT[e.cat]||CAT.other}" tabindex="0"><title>${esc(e.label)}</title></circle>`).join('');
+  $('#svgmap').innerHTML=g;
+  const e=mapSel&&BY[mapSel],info=$('#mapinfo');
+  info.innerHTML=e?`<span class="badge">${esc(e.cat||'')} · ${e.id}</span><h3>${esc(e.label)}</h3><p style="color:var(--muted)">${fmt(e.date)} · ${esc(e.region||'')}</p><p>${esc(e.summary||'')}</p><p>${DEG[e.id]||0} connections</p><button class="link" data-net="${e.id}">Open in network →</button>`:'<p>Select a point on the map to see the event, its date and its connections.</p>';
+  const b=info.querySelector('[data-net]');if(b)b.onclick=()=>goNet(b.dataset.net)};
+ $('#svgmap').addEventListener('click',e=>{const c=e.target.closest('[data-m]');if(c){mapSel=c.dataset.m;renderMap()}});
+ $('#svgmap').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.m){mapSel=e.target.dataset.m;renderMap()}});
+
+ renderTL();renderMap();renderStats();renderLatest();renderDossier();renderTopicsAnalytics();renderFuture();
+
+ const links=[...document.querySelectorAll('#nav a')];
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
+ document.querySelectorAll('main,section').forEach(s=>io.observe(s));
+}
+function goNet(id){net.select(id,net.st.hops==='all'?2:net.st.hops);renderSide();document.getElementById('network').scrollIntoView()}
+function nCount(t){return N.filter(n=>n.type===t).length}
+function renderStats(){$('#stats').innerHTML=[['Events',nCount('event')],['Connections',E.length],['Countries',nCount('country')],['Topics',nCount('topic')]].map(([l,v])=>`<div>${v}<small>${l}</small></div>`).join('')}
+function renderLatest(){$('#latest').innerHTML=events.slice(0,4).map(e=>`<button class="ev" data-id="${e.id}"><small><i class="dot" style="background:${CAT[e.cat]||CAT.other}"></i>${esc(e.region||'')} · ${fmt(e.date)}</small><span class="t">${esc(e.label)}</span></button>`).join('')||'<p style="color:var(--muted)">No published events yet.</p>'}
+function renderSide(){
+ const id=net.st.sel,s=$('#side');
+ if(!id){s.innerHTML=`<h3 style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--sans)">Selection</h3><p>Select a node in the graph, or search for an event, country or topic.</p><p style="color:var(--muted)">${N.length} nodes · ${E.length} approved connections in the live database.</p>`;return}
+ const n=BY[id];if(!n){net.st.sel=null;renderSide();return}
+ const conns=(ADJ[id]||[]).slice().sort((a,b)=>(BY[a[0]]?.label||'').localeCompare(BY[b[0]]?.label||''));
+ const p=net.st.path?net.st.path.list:null;
+ const cmts=commentsFor(id);
+ s.innerHTML=`<span class="badge"><i class="dot" style="background:${col(n)};margin-right:6px"></i>${TY[n.type].l}${n.id.startsWith('AX-')?' · '+n.id:''}</span>
+ <h3>${esc(n.label)}</h3>${n.date?`<p style="color:var(--muted)">${fmt(n.date)} · ${esc(n.region||'')}</p>`:''}${n.summary?`<p>${esc(n.summary)}</p>`:''}
+ <div style="margin:12px 0 4px;font-size:12px;color:var(--muted)">FOLLOW THE CONNECTION</div>
+ <select id="tp" aria-label="Trace path to"><option value="">Trace a path to…</option>${N.filter(x=>x.id!==id).sort((a,b)=>a.label.localeCompare(b.label)).map(x=>`<option value="${x.id}" ${p&&p[p.length-1]===x.id?'selected':''}>${esc(x.label)}</option>`).join('')}</select>
+ ${p?`<div class="pathbox">${p.map(x=>esc(BY[x].label)).join(' → ')}</div>`:''}
+ <div style="margin:14px 0 4px;font-size:12px;color:var(--muted)">${conns.length} DIRECT CONNECTIONS</div>
+ ${conns.map(([o,r])=>BY[o]?`<button class="conn" data-go="${o}"><em>${esc(r)}</em><span>${esc(BY[o].label)}</span></button>`:'').join('')}
+ <div class="cbox"><div style="font-size:12px;color:var(--muted);margin-bottom:8px">${cmts.length} COMMENT${cmts.length===1?'':'S'}</div>
+ ${cmts.map(c=>`<div class="cmt"><b>${esc(c.author)}</b><time>${fmt(c.created_at.slice(0,10))}</time><p>${esc(c.text)}</p></div>`).join('')}
+ <form class="cform" id="cform"><input id="cauthor" maxlength="60" placeholder="Name (optional)"><textarea id="ctext" maxlength="1000" placeholder="Add a comment…"></textarea><button type="submit">Post comment</button></form></div>`;
+ $('#tp').onchange=e=>{if(!e.target.value){net.clearPath()}else{net.tracePath(e.target.value)}renderSide()};
+ s.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{net.select(b.dataset.go);renderSide()});
+ const cf=document.getElementById('cform');
+ if(cf)cf.onsubmit=async e=>{e.preventDefault();const t=document.getElementById('ctext').value;if(!t.trim())return;const a=document.getElementById('cauthor').value;await addComment(id,a,t);renderSide()};
+}
+function renderDossier(){
+ const dossier=NODES['d_iran']&&BY['d_iran']?BY['d_iran']:N.find(n=>n.type==='dossier');
+ const el=$('#dos');
+ if(!dossier){el.innerHTML='<p style="color:var(--muted)">No dossier published yet.</p>';return}
+ const dn=(ADJ[dossier.id]||[]).map(x=>BY[x[0]]).filter(Boolean);
+ const dEv=events.filter(e=>bfs(dossier.id,2).has(e.id));
+ el.innerHTML=`<div class="panel"><span class="badge">Dossier</span><h3 style="font:400 26px var(--serif);text-transform:none;letter-spacing:0;margin:10px 0">${esc(dossier.label)}</h3><p style="color:#b9c4d0">${esc(dossier.summary||'')}</p>
+ <p style="color:var(--muted)">Key players: ${dn.map(x=>esc(x.label)).join(', ')||'—'}</p>
+ <button class="cta" id="dnet" style="margin-top:6px">Open dossier network <span>→</span></button></div>
+ <div class="panel"><h3>Connected events</h3>${dEv.map(e=>`<button class="ev" data-id="${e.id}"><small><i class="dot" style="background:${CAT[e.cat]||CAT.other}"></i>${fmt(e.date)} · ${e.id}</small><span class="t">${esc(e.label)}</span></button>`).join('')||'<p style="color:var(--muted)">None yet.</p>'}</div>`;
+ const dnetBtn=document.getElementById('dnet');if(dnetBtn)dnetBtn.onclick=()=>{net.st.isolate=true;$('#iso').classList.add('on');goNet(dossier.id)};
+ el.onclick=e=>{const b=e.target.closest('.ev');if(b)goNet(b.dataset.id)};
+}
+function bars(rows,max){return rows.map(([l,v,id])=>`<div class="bar2"><span>${id?`<button class="link" data-go2="${id}" style="color:inherit">${esc(l)}</button>`:esc(l)}</span><div><i style="width:${max?v/max*100:0}%"></i></div><b>${v}</b></div>`).join('')}
+function renderTopicsAnalytics(){
+ const topics=N.filter(n=>n.type==='topic').map(t=>({t,c:(ADJ[t.id]||[]).filter(([o])=>BY[o]&&BY[o].type==='event').length})).sort((a,b)=>b.c-a.c);
+ $('#topiclist').innerHTML=topics.length?bars(topics.map(x=>[x.t.label,x.c,x.t.id]),topics[0].c||1):'<p style="color:var(--muted)">No topics yet.</p>';
+ const conn=[...N].sort((a,b)=>(DEG[b.id]||0)-(DEG[a.id]||0)).slice(0,8);
+ const rels={};E.forEach(e=>rels[e[2]]=(rels[e[2]]||0)+1);
+ const rr=Object.entries(rels).sort((a,b)=>b[1]-a[1]).slice(0,8);
+ const types=Object.entries(TY).map(([k,v])=>[v.l+'s',nCount(k)]);
+ $('#an').innerHTML=`<div class="panel"><h3>Most connected nodes</h3>${conn.length?bars(conn.map(n=>[n.label,DEG[n.id]||0,n.id]),DEG[conn[0]?.id]||1):'<p style="color:var(--muted)">No data yet.</p>'}</div>
+ <div class="panel"><h3>Relationship types</h3>${rr.length?bars(rr,rr[0][1]):'<p style="color:var(--muted)">No connections yet.</p>'}</div>
+ <div class="panel"><h3>Content by type</h3>${bars(types,Math.max(1,...types.map(t=>t[1])))}<p style="color:var(--muted);margin-top:14px">Average ${N.length?(2*E.length/N.length).toFixed(1):'0'} connections per node.</p></div>`;
+ document.querySelectorAll('[data-go2]').forEach(b=>b.onclick=()=>goNet(b.dataset.go2));
+}
+function renderFuture(){
+ const FUT=[['c','Scheduled','Example entry: diplomatic round on the nuclear file','Date and venue to be confirmed by the administrator with a linked source.'],
+ ['a','Analysis','Example entry: possible effects of new sanctions on regional energy trade','Marked as analysis. This is an assessment, not a reported event.']];
+ $('#fut').innerHTML=FUT.map(f=>`<div class="fut"><span class="status st-${f[0]}">${f[0]==='c'?'Confirmed / scheduled':'Analysis / possibility'}</span><div style="font:400 18px var(--serif);margin:8px 0 2px">${esc(f[2])}</div><div style="color:var(--muted)">${esc(f[3])}</div></div>`).join('');
+}
+function refreshAll(){
+ rebuildDerived();
+ if(net)net.rebuild();
+ if(hero)hero.rebuild();
+ renderStats();renderLatest();renderTL();renderMap();renderDossier();renderTopicsAnalytics();renderSide();
+}
+
+/* ==========================================================================
+   ADMIN CONSOLE
+   Everything here writes straight to the shared database (window.storage),
+   so changes are real and persist for every visitor — this is not a mock.
+   Known limits of a client-only environment, stated plainly:
+   - No server, so the admin session lives only in this tab's memory
+     (reload = signed out again; your saved data is untouched).
+   - Password hashing runs in the browser (SHA-256), which is fine for
+     keeping casual visitors out but is not the security bar of a real
+     backend with salted hashing and rate-limited login.
+   ========================================================================== */
+let currentUser=null,adminTab='articles';
+function showAdminView(show){
+ $('#publicview').style.display=show?'none':'';
+ $('#adminview').style.display=show?'block':'none';
+ $('#loginNavBtn').textContent=currentUser?'Admin: '+currentUser.username:'Admin login';
+ $('#loginNavBtn').classList.toggle('in',!!currentUser);
+ if(show)renderAdmin();
+}
+window.addEventListener('hashchange',()=>showAdminView(location.hash==='#admin'));
+function labelForTab(t){return{articles:'Articles',connections:'Connections',ai:'AI suggestions',comments:'Comments',entities:'Entities',settings:'Settings'}[t]}
+function renderAdmin(){
+ const root=$('#adminroot');
+ if(!currentUser){root.innerHTML=loginFormHTML();wireLoginForm();return}
+ const proposedCount=Object.values(CONNS).filter(c=>c.status==='proposed').length;
+ root.innerHTML=`<div class="abar">
+  <div><h2 style="font:400 26px var(--serif);margin:0">Admin</h2><p style="color:var(--muted);margin:4px 0 0;font-size:12px">Signed in as ${esc(currentUser.username)} · ${esc(currentUser.role)}</p></div>
+  <div><button class="abtn ghost" id="backSite">← Back to site</button> <button class="abtn danger" id="logoutBtn">Log out</button></div>
+ </div>
+ <div class="atabs">${['articles','connections','ai','comments','entities','settings'].map(t=>`<button data-t="${t}" class="${adminTab===t?'on':''}">${labelForTab(t)}${t==='ai'&&proposedCount?' ('+proposedCount+')':''}</button>`).join('')}</div>
+ <div id="admintab"></div>`;
+ $('#backSite').onclick=()=>{location.hash='#home'};
+ $('#logoutBtn').onclick=()=>{currentUser=null;renderAdmin()};
+ root.querySelectorAll('.atabs button').forEach(b=>b.onclick=()=>{adminTab=b.dataset.t;renderAdmin()});
+ renderAdminTab();
+}
+function renderAdminTab(){
+ const t=$('#admintab');
+ if(adminTab==='articles')return renderArticlesTab(t);
+ if(adminTab==='connections')return renderConnectionsTab(t);
+ if(adminTab==='ai')return renderAITab(t);
+ if(adminTab==='comments')return renderCommentsTab(t);
+ if(adminTab==='entities')return renderEntitiesTab(t);
+ if(adminTab==='settings')return renderSettingsTab(t);
+}
+
+/* ---- Login ---- */
+function loginFormHTML(){
+ return `<div class="loginwrap"><h2>Admin sign in</h2><p>Manage articles, connections, comments and AI suggestions for AXIS.</p>
+ <input id="luser" placeholder="Username" autocomplete="username">
+ <input id="lpass" type="password" placeholder="Password" autocomplete="current-password">
+ <button id="lbtn">Log in</button>
+ <div id="lerr" style="color:#ff8a8a;font-size:12px;margin-top:8px"></div>
+ <div class="note">First time here? Default sign-in is <b>admin</b> / <b>axis-admin-2026</b> — change it under Settings once you're in.<br><br>Heads up: this login only protects the admin screen from casual visitors of this shared workspace. The session isn't remembered across a page reload, but everything you save (articles, connections, comments) is stored for real and stays there.</div>
+ </div>`;
+}
+function wireLoginForm(){
+ $('#lbtn').onclick=async()=>{
+  const u=$('#luser').value.trim(),p=$('#lpass').value,rec=USERS[u],err=$('#lerr');
+  if(!rec){err.textContent='Unknown username.';return}
+  const h=await sha256(p);
+  if(h!==rec.passwordHash){err.textContent='Incorrect password.';return}
+  currentUser={username:u,role:rec.role||'administrator'};
+  showAdminView(true);
+ };
+ $('#lpass').addEventListener('keydown',e=>{if(e.key==='Enter')$('#lbtn').click()});
+}
+
+/* ---- Articles ---- */
+function nextArticleId(){
+ const nums=Object.keys(NODES).filter(id=>/^AX-2026-\d+$/.test(id)).map(id=>+id.split('-')[2]);
+ const n=(nums.length?Math.max(...nums):0)+1;
+ return 'AX-2026-'+String(n).padStart(4,'0');
+}
+function slugify(s){return String(s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}
+let editingArticleId=null;
+function renderArticlesTab(t){
+ const rows=Object.values(NODES).filter(n=>n.type==='event').sort((a,b)=>(b.updated_at||'').localeCompare(a.updated_at||''));
+ t.innerHTML=`<div class="abar"><div></div><button class="abtn" id="newArt">+ New article</button></div>
+ <div id="artFormWrap"></div>
+ <table class="atable"><thead><tr><th>ID</th><th>Title</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody>
+ ${rows.map(n=>`<tr><td>${n.id}</td><td>${esc(n.label)}</td><td><span class="status st-${n.status==='published'?'c':'a'}">${esc(n.status||'published')}</span></td><td>${fmt(n.date)}</td>
+ <td class="act"><button data-edit="${n.id}">Edit</button><button data-del="${n.id}">Delete</button></td></tr>`).join('')||'<tr><td colspan="5" style="color:var(--muted)">No articles yet.</td></tr>'}
+ </tbody></table>`;
+ $('#newArt').onclick=()=>{editingArticleId=null;renderArticleForm()};
+ t.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{editingArticleId=b.dataset.edit;renderArticleForm()});
+ t.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
+  if(!confirm('Delete article '+b.dataset.del+'? Its connections will be deleted too.'))return;
+  const id=b.dataset.del;delete NODES[id];
+  Object.keys(CONNS).forEach(cid=>{const c=CONNS[cid];if(c.source_node_id===id||c.target_node_id===id)delete CONNS[cid]});
+  delete COMMENTS[id];
+  await Promise.all([saveNodes(),saveConnections(),saveComments()]);
+  refreshAll();renderArticlesTab(t);
+ });
+}
+function renderArticleForm(){
+ const a=editingArticleId?NODES[editingArticleId]:null;
+ const w=$('#artFormWrap');
+ w.innerHTML=`<form class="aform" id="artForm">
+  <label class="full">Title<input name="label" required value="${esc(a?a.label:'')}"></label>
+  <label>Article code<input name="article_code" value="${esc(a?a.article_code:'')}" placeholder="auto"></label>
+  <label>Date<input type="date" name="date" value="${a?a.date:''}"></label>
+  <label>Category<select name="cat">${Object.keys(CAT).map(c=>`<option value="${c}" ${a&&a.cat===c?'selected':''}>${c}</option>`).join('')}</select></label>
+  <label>Status<select name="status">${['draft','review','published','archived','private'].map(s=>`<option value="${s}" ${a&&a.status===s||(!a&&s==='draft')?'selected':''}>${s}</option>`).join('')}</select></label>
+  <label>Importance<select name="importance">${['low','normal','high','critical'].map(s=>`<option value="${s}" ${a&&a.importance===s||(!a&&s==='normal')?'selected':''}>${s}</option>`).join('')}</select></label>
+  <label>Region<input name="region" value="${esc(a?a.region:'')}"></label>
+  <label>Latitude<input type="number" step="any" name="lat" value="${a&&a.lat!=null?a.lat:''}"></label>
+  <label>Longitude<input type="number" step="any" name="lng" value="${a&&a.lng!=null?a.lng:''}"></label>
+  <label class="full">Excerpt / summary<textarea name="summary">${esc(a?a.summary:'')}</textarea></label>
+  <label class="full">Content<textarea name="content" style="min-height:140px">${esc(a?a.content:'')}</textarea></label>
+  <div class="row"><button class="abtn" type="submit">${a?'Save changes':'Create article'}</button><button class="abtn ghost" type="button" id="cancelArt">Cancel</button></div>
+ </form>`;
+ $('#cancelArt').onclick=()=>{editingArticleId=null;w.innerHTML=''};
+ $('#artForm').onsubmit=async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const id=a?a.id:nextArticleId();
+  const prevContent=a?a.content:null;
+  const obj={id,type:'event',label:f.get('label').trim(),article_code:f.get('article_code').trim()||id,slug:slugify(f.get('label')),
+   date:f.get('date')||null,cat:f.get('cat'),status:f.get('status'),importance:f.get('importance'),region:f.get('region').trim(),
+   lat:f.get('lat')?+f.get('lat'):null,lng:f.get('lng')?+f.get('lng'):null,summary:f.get('summary').trim(),content:f.get('content').trim(),
+   author:currentUser.username,created_at:a?a.created_at:nowISO(),updated_at:nowISO()};
+  NODES[id]=obj;
+  await saveNodes();
+  if(a&&prevContent!==obj.content){
+   const revs=await dbGet('db:revisions',{});
+   revs[id]=revs[id]||[];
+   revs[id].push({version:revs[id].length+1,changed_by:currentUser.username,changed_at:nowISO(),previous_content:prevContent});
+   await dbSet('db:revisions',revs);
+  }
+  editingArticleId=null;w.innerHTML='';
+  refreshAll();renderArticlesTab($('#admintab'));
+  toast(a?'Article saved.':'Article created.');
+ };
+}
+
+/* ---- Connections ---- */
+function allNodeOptions(excludeId){return Object.values(NODES).filter(n=>n.id!==excludeId&&(n.type!=='event'||true)).sort((a,b)=>a.label.localeCompare(b.label))}
+let editingConnId=null;
+function renderConnectionsTab(t){
+ const rows=Object.values(CONNS).sort((a,b)=>(b.updated_at||'').localeCompare(a.updated_at||''));
+ t.innerHTML=`<div class="abar"><div></div><button class="abtn" id="newConn">+ New connection</button></div>
+ <div id="connFormWrap"></div>
+ <table class="atable"><thead><tr><th>Source</th><th>Target</th><th>Type</th><th>Direction</th><th>Status</th><th></th></tr></thead><tbody>
+ ${rows.map(c=>`<tr><td>${esc(NODES[c.source_node_id]?.label||c.source_node_id)}</td><td>${esc(NODES[c.target_node_id]?.label||c.target_node_id)}</td><td>${esc(c.relationship_type)}</td><td>${c.direction}</td><td><span class="status st-${c.status}">${c.status}</span></td>
+ <td class="act"><button data-edit="${c.id}">Edit</button>${c.status!=='approved'?`<button data-appr="${c.id}">Approve</button>`:''}${c.status!=='rejected'?`<button data-rej="${c.id}">Reject</button>`:''}<button data-del="${c.id}">Delete</button></td></tr>`).join('')||'<tr><td colspan="6" style="color:var(--muted)">No connections yet.</td></tr>'}
+ </tbody></table>`;
+ $('#newConn').onclick=()=>{editingConnId=null;renderConnForm()};
+ t.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{editingConnId=b.dataset.edit;renderConnForm()});
+ t.querySelectorAll('[data-appr]').forEach(b=>b.onclick=()=>setConnStatus(b.dataset.appr,'approved'));
+ t.querySelectorAll('[data-rej]').forEach(b=>b.onclick=()=>setConnStatus(b.dataset.rej,'rejected'));
+ t.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this connection?'))return;delete CONNS[b.dataset.del];await saveConnections();refreshAll();renderConnectionsTab(t)});
+}
+async function setConnStatus(id,status){CONNS[id].status=status;CONNS[id].updated_at=nowISO();await saveConnections();refreshAll();renderAdminTab()}
+function renderConnForm(){
+ const c=editingConnId?CONNS[editingConnId]:null;
+ const opts=allNodeOptions();
+ const w=$('#connFormWrap');
+ w.innerHTML=`<form class="aform" id="connForm">
+  <label>Source node<select name="source_node_id">${opts.map(n=>`<option value="${n.id}" ${c&&c.source_node_id===n.id?'selected':''}>${esc(n.label)} (${TY[n.type].l})</option>`).join('')}</select></label>
+  <label>Target node<select name="target_node_id">${opts.map(n=>`<option value="${n.id}" ${c&&c.target_node_id===n.id?'selected':''}>${esc(n.label)} (${TY[n.type].l})</option>`).join('')}</select></label>
+  <label>Relationship type<select name="relationship_type">${RELTYPES.map(r=>`<option value="${r}" ${c&&c.relationship_type===r?'selected':''}>${r}</option>`).join('')}</select></label>
+  <label>Direction<select name="direction"><option value="undirected" ${!c||c.direction==='undirected'?'selected':''}>Undirected</option><option value="directed" ${c&&c.direction==='directed'?'selected':''}>Directed</option></select></label>
+  <label>Status<select name="status">${['proposed','approved','rejected','archived'].map(s=>`<option value="${s}" ${c&&c.status===s||(!c&&s==='approved')?'selected':''}>${s}</option>`).join('')}</select></label>
+  <label class="full">Description<input name="description" value="${esc(c?c.description:'')}" placeholder="Shown when a viewer clicks this edge"></label>
+  <div class="row"><button class="abtn" type="submit">${c?'Save changes':'Create connection'}</button><button class="abtn ghost" type="button" id="cancelConn">Cancel</button></div>
+ </form>`;
+ $('#cancelConn').onclick=()=>{editingConnId=null;w.innerHTML=''};
+ $('#connForm').onsubmit=async e=>{
+  e.preventDefault();const f=new FormData(e.target);
+  const src=f.get('source_node_id'),tgt=f.get('target_node_id');
+  if(src===tgt){alert('Source and target must be different nodes.');return}
+  const id=c?c.id:'CON-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  CONNS[id]={id,source_node_id:src,target_node_id:tgt,relationship_type:f.get('relationship_type'),direction:f.get('direction'),
+   description:f.get('description').trim(),confidence:c?c.confidence:null,status:f.get('status'),created_by:c?c.created_by:currentUser.username,
+   created_at:c?c.created_at:nowISO(),updated_at:nowISO(),metadata:c?c.metadata:{ai_generated:false,ai_confidence:null,admin_note:''}};
+  await saveConnections();
+  editingConnId=null;w.innerHTML='';
+  refreshAll();renderConnectionsTab($('#admintab'));
+  toast(c?'Connection saved.':'Connection created.');
+ };
+}
+
+/* ---- AI suggestions ---- */
+function toast(msg){const el=document.createElement('div');el.className='toast';el.textContent=msg;document.body.appendChild(el);setTimeout(()=>el.remove(),2600)}
+async function aiSuggestConnections(articleId){
+ const article=NODES[articleId];
+ const candidates=Object.values(NODES).filter(n=>n.id!==articleId).map(n=>({id:n.id,type:n.type,label:n.label,summary:n.summary||''}));
+ const prompt=`You analyse an article for AXIS, a geopolitical knowledge graph, and suggest which existing nodes it should be connected to.
+Return ONLY a raw JSON array (no markdown fences, no prose) of up to 6 objects, most relevant first, each shaped exactly like:
+{"target_id":"<id from CANDIDATE NODES>","relationship_type":"<one of: ${RELTYPES.join(', ')}>","confidence":0.0,"reason":"one short sentence"}
+Only use target_id values that appear in CANDIDATE NODES. Do not invent ids.
+
+ARTICLE
+id: ${article.id}
+title: ${article.label}
+summary: ${article.summary||''}
+
+CANDIDATE NODES (JSON)
+${JSON.stringify(candidates)}`;
+ const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+ const data=await res.json();
+ const text=(data.content||[]).map(b=>b.text||'').join('\n');
+ const clean=text.replace(/```json|```/g,'').trim();
+ let arr;
+ try{arr=JSON.parse(clean)}catch(e){throw new Error('The AI response could not be parsed as JSON.')}
+ const created=[];
+ for(const s of arr){
+  if(!s||!s.target_id||!NODES[s.target_id]||s.target_id===articleId)continue;
+  const id='CON-AI-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  CONNS[id]={id,source_node_id:articleId,target_node_id:s.target_id,relationship_type:RELTYPES.includes(s.relationship_type)?s.relationship_type:'related_to',
+   direction:'undirected',description:String(s.reason||'').slice(0,300),confidence:typeof s.confidence==='number'?s.confidence:null,
+   status:'proposed',created_by:'ai',created_at:nowISO(),updated_at:nowISO(),metadata:{ai_generated:true,ai_confidence:typeof s.confidence==='number'?s.confidence:null,admin_note:''}};
+  created.push(id);
+ }
+ await saveConnections();
+ return created;
+}
+function renderAITab(t){
+ const articles=Object.values(NODES).filter(n=>n.type==='event').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ const proposed=Object.values(CONNS).filter(c=>c.status==='proposed').sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+ t.innerHTML=`<div class="panel" style="margin-bottom:18px">
+  <h3 style="margin-top:0">Analyse an article</h3>
+  <p style="color:var(--muted);font-size:13px;margin:0 0 10px">AXIS asks Claude to compare an article against every other node in the database and propose connections. Nothing goes live automatically — suggestions land below as <b>proposed</b> and wait for your review, per the AI workflow in the data model.</p>
+  <select id="aiArt" style="background:#10161d;border:1px solid var(--line);padding:8px;width:100%;max-width:420px">${articles.map(a=>`<option value="${a.id}">${a.id} — ${esc(a.label)}</option>`).join('')}</select>
+  <button class="abtn" id="aiGo" style="margin-left:8px">Generate suggestions</button>
+  <div id="aiStatus" style="margin-top:10px;font-size:13px;color:var(--muted)"></div>
+ </div>
+ <h3 style="font:400 20px var(--serif);margin:0 0 10px">Proposed connections (${proposed.length})</h3>
+ <div id="aiList">${proposed.length?proposed.map(renderSuggestionCard).join(''):'<p style="color:var(--muted)">No proposed connections right now.</p>'}</div>`;
+ $('#aiGo').onclick=async()=>{
+  const id=$('#aiArt').value,st=$('#aiStatus');
+  st.innerHTML='<span class="spin"></span>Asking Claude for connection suggestions…';
+  try{
+   const created=await aiSuggestConnections(id);
+   st.textContent=created.length?`${created.length} suggestion(s) added below.`:'No confident suggestions came back.';
+   renderAdminTab();
+  }catch(err){st.textContent='Could not generate suggestions: '+err.message}
+ };
+ t.querySelectorAll('[data-appr]').forEach(b=>b.onclick=()=>setConnStatus(b.dataset.appr,'approved'));
+ t.querySelectorAll('[data-rej]').forEach(b=>b.onclick=()=>setConnStatus(b.dataset.rej,'rejected'));
+}
+function renderSuggestionCard(c){
+ const s=NODES[c.source_node_id],tg=NODES[c.target_node_id];
+ return `<div class="aisug"><div>${esc(s?.label||c.source_node_id)} → ${esc(tg?.label||c.target_node_id)} <span class="badge">${esc(c.relationship_type)}</span>${c.confidence!=null?` <small>confidence ${(c.confidence*100).toFixed(0)}%</small>`:''}</div>
+ <p style="margin:6px 0;color:#cdd6e0">${esc(c.description||'')}</p>
+ <small>${c.metadata&&c.metadata.ai_generated?'Suggested by AI':'Manual'} · ${new Date(c.created_at).toLocaleString('en-GB')}</small><br>
+ <button class="abtn" style="margin-top:8px" data-appr="${c.id}">Approve</button> <button class="abtn ghost" data-rej="${c.id}">Reject</button></div>`;
+}
+
+/* ---- Comments moderation ---- */
+function renderCommentsTab(t){
+ const rows=[];
+ Object.entries(COMMENTS).forEach(([nodeId,list])=>list.forEach(c=>rows.push({...c,nodeId})));
+ rows.sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+ t.innerHTML=`<table class="atable"><thead><tr><th>Node</th><th>Author</th><th>Comment</th><th>Status</th><th></th></tr></thead><tbody>
+ ${rows.map(c=>`<tr><td>${esc(NODES[c.nodeId]?.label||c.nodeId)}</td><td>${esc(c.author)}</td><td>${esc(c.text)}</td><td>${c.hidden?'Hidden':'Visible'}</td>
+ <td class="act"><button data-toggle="${c.nodeId}|${c.id}">${c.hidden?'Unhide':'Hide'}</button><button data-remove="${c.nodeId}|${c.id}">Delete</button></td></tr>`).join('')||'<tr><td colspan="5" style="color:var(--muted)">No comments yet.</td></tr>'}
+ </tbody></table>`;
+ t.querySelectorAll('[data-toggle]').forEach(b=>b.onclick=async()=>{
+  const[nodeId,cid]=b.dataset.toggle.split('|');
+  const c=(COMMENTS[nodeId]||[]).find(x=>x.id===cid);if(c)c.hidden=!c.hidden;
+  await saveComments();renderCommentsTab(t);renderSide();
+ });
+ t.querySelectorAll('[data-remove]').forEach(b=>b.onclick=async()=>{
+  const[nodeId,cid]=b.dataset.remove.split('|');
+  if(!confirm('Delete this comment?'))return;
+  COMMENTS[nodeId]=(COMMENTS[nodeId]||[]).filter(x=>x.id!==cid);
+  await saveComments();renderCommentsTab(t);renderSide();
+ });
+}
+
+/* ---- Entities ---- */
+let editingEntityId=null;
+function renderEntitiesTab(t){
+ const rows=Object.values(NODES).filter(n=>n.type!=='event').sort((a,b)=>a.type.localeCompare(b.type)||a.label.localeCompare(b.label));
+ t.innerHTML=`<div class="abar"><div></div><button class="abtn" id="newEnt">+ New entity</button></div>
+ <div id="entFormWrap"></div>
+ <table class="atable"><thead><tr><th>Type</th><th>Name</th><th>ID</th><th></th></tr></thead><tbody>
+ ${rows.map(n=>`<tr><td>${TY[n.type].l}</td><td>${esc(n.label)}</td><td>${n.id}</td><td class="act"><button data-edit="${n.id}">Edit</button><button data-del="${n.id}">Delete</button></td></tr>`).join('')||'<tr><td colspan="4" style="color:var(--muted)">No entities yet.</td></tr>'}
+ </tbody></table>`;
+ $('#newEnt').onclick=()=>{editingEntityId=null;renderEntityForm()};
+ t.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{editingEntityId=b.dataset.edit;renderEntityForm()});
+ t.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
+  if(!confirm('Delete '+b.dataset.del+'? Its connections will be deleted too.'))return;
+  const id=b.dataset.del;delete NODES[id];
+  Object.keys(CONNS).forEach(cid=>{const c=CONNS[cid];if(c.source_node_id===id||c.target_node_id===id)delete CONNS[cid]});
+  delete COMMENTS[id];
+  await Promise.all([saveNodes(),saveConnections(),saveComments()]);
+  refreshAll();renderEntitiesTab(t);
+ });
+}
+function renderEntityForm(){
+ const n=editingEntityId?NODES[editingEntityId]:null;
+ const w=$('#entFormWrap');
+ w.innerHTML=`<form class="aform" id="entForm">
+  <label>Type<select name="type" ${n?'disabled':''}>${['country','org','topic','location','dossier'].map(ty=>`<option value="${ty}" ${n&&n.type===ty?'selected':''}>${TY[ty].l}</option>`).join('')}</select></label>
+  <label>Name<input name="label" required value="${esc(n?n.label:'')}"></label>
+  <label class="full">Summary (optional)<textarea name="summary">${esc(n?n.summary||'':'')}</textarea></label>
+  <div class="row"><button class="abtn" type="submit">${n?'Save changes':'Create entity'}</button><button class="abtn ghost" type="button" id="cancelEnt">Cancel</button></div>
+ </form>`;
+ $('#cancelEnt').onclick=()=>{editingEntityId=null;w.innerHTML=''};
+ $('#entForm').onsubmit=async e=>{
+  e.preventDefault();const f=new FormData(e.target);
+  const type=n?n.type:f.get('type');
+  const id=n?n.id:type+'_'+slugify(f.get('label'))+'_'+Date.now().toString(36).slice(-4);
+  NODES[id]={...(n||{}),id,type,label:f.get('label').trim(),summary:f.get('summary').trim()};
+  await saveNodes();
+  editingEntityId=null;w.innerHTML='';
+  refreshAll();renderEntitiesTab($('#admintab'));
+  toast(n?'Entity saved.':'Entity created.');
+ };
+}
+
+/* ---- Settings ---- */
+function renderSettingsTab(t){
+ t.innerHTML=`<div class="panel" style="max-width:420px">
+ <h3 style="margin-top:0">Change password</h3>
+ <form class="aform" id="pwForm" style="grid-template-columns:1fr">
+  <label>Current password<input type="password" name="cur" required></label>
+  <label>New password<input type="password" name="new" required minlength="6"></label>
+  <div class="row"><button class="abtn" type="submit">Update password</button></div>
+ </form>
+ <div id="pwMsg" style="font-size:12px;margin-top:8px"></div>
+ </div>`;
+ $('#pwForm').onsubmit=async e=>{
+  e.preventDefault();const f=new FormData(e.target);const msg=$('#pwMsg');
+  const rec=USERS[currentUser.username];
+  const h=await sha256(f.get('cur'));
+  if(h!==rec.passwordHash){msg.style.color='#ff8a8a';msg.textContent='Current password is incorrect.';return}
+  rec.passwordHash=await sha256(f.get('new'));
+  await saveUsers();
+  msg.style.color='#4fd39a';msg.textContent='Password updated.';
+  e.target.reset();
+ };
+}
+
+/* ---------- Boot ---------- */
+$('#loginNavBtn').onclick=()=>{location.hash='#admin'};
+(async function init(){
+ await loadDB();
+ rebuildDerived();
+ initPublicPage();
+ showAdminView(location.hash==='#admin');
+})();
+</script>
+</body>
+</html>
